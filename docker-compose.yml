@@ -1,0 +1,61 @@
+version: "3.9"
+
+services:
+  kali:
+    build: kali
+    tty: true
+    networks:
+      - internal
+      # internal:
+        # ipv4_address: 172.20.0.2
+    ports:
+      - "22:22"
+
+  webapp:
+    build: webapp
+    hostname: host-prod-a
+    expose:
+      - "80"
+      - "22"
+    networks:
+      - internal
+      # internal:
+        # ipv4_address: 172.20.0.3
+    
+  db:
+    image: postgres
+    restart: always
+    hostname: db-prod-a
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: my_secret_example_password
+    expose:
+      - "5432"
+    networks:
+      - internal
+      # internal:
+        # ipv4_address: 172.20.0.4
+
+  workstation1:
+    build: workstation
+    hostname: hiro
+    tty: true
+    networks:
+      - internal
+      # internal:
+        # ipv4_address: 172.20.0.65
+
+  workstation2:
+    build: workstation
+    hostname: yt
+    tty: true
+    networks:
+      - internal
+      # internal:
+        # ipv4_address: 172.20.0.67
+
+networks:
+  internal:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

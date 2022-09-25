@@ -1,0 +1,9 @@
+FROM weibeld/ubuntu-networking:latest
+
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    sudo \
+    python3 \
+    python3-pip \
+    vim \
+    emacs \
+    curl
