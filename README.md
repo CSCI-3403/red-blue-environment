@@ -22,8 +22,8 @@ The network will contain these devices, running services on these ports:
 ## Flags
 Flags will be written in the form "{flag-___}", where each one will have a unique value the students will have to discover. Flags will stored in the following places:
 
-* Writton on the development website on the web server
-  * Students will need to use a larger port scan than the default nmap one
+* Written on the development website on the web server
+  * Students will just need to view the development webpage.
 * Written on a sticky note in one of the CCTV images
   * The students will simply need to find the CCTV cameras and look on port 80
 * Bob's laptop will log into the web server on port 23, using this flag as a password
