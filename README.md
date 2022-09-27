@@ -8,22 +8,35 @@ This lab uses Docker Compose to quickly and easily spin up a private network of 
 
 The network will contain these devices, running services on these ports:
 * Router
-  * Port 443 (external): OpenVPN server which allows students access into the network. This is the only port which should be available to the outside world.
+  * Students will use this router to access the VPN
+  * Port 443: OpenVPN server which allows students access into the network
 * Web server
+  * External-facing web server. Contains the fake company's webpage.
   * Port 80: HTTP server
   * Port 443: HTTPS server
   * Port 8088: Development HTTP server
   * Port 21: TELNET server
-* Alice laptop
-* Bob laptop
+* Internal web server
+  * Internal-facing web server. Contains documentation for "new hires", including sensitive passwords
+  * Port 80: HTTP server
+* Database server
+  * Database server running postgresql
+  * Port 5432: Postgresql server
+* Alice's laptop
+  * Dev laptop, no ports open
+* Bob's laptop
+  * Dev laptop, no ports open
 * CCTV cameras x3
-  * Port 80: HTTP server hosting a static image from a fake "CCTV camera"
+  * Fake "CCTV cameras", each hosting a static image
+  * Port 80: HTTP server displaying the "CCTV feed"
 
 ## Flags
 Flags will be written in the form "{flag-___}", where each one will have a unique value the students will have to discover. Flags will stored in the following places:
 
 * Written on the development website on the web server
   * Students will just need to view the development webpage.
+* Inside the postgresql database
+  * Students can get the password from the internal documentation site. They will need to read the documentation, find the password to the database, and log in.
 * Written on a sticky note in one of the CCTV images
   * The students will simply need to find the CCTV cameras and look on port 80
 * Bob's laptop will log into the web server on port 23, using this flag as a password

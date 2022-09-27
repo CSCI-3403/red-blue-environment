@@ -1,16 +1,6 @@
 version: "3.9"
 
 services:
-  kali:
-    build: kali
-    tty: true
-    networks:
-      - internal
-      # internal:
-        # ipv4_address: 172.20.0.2
-    ports:
-      - "22:22"
-
   webapp:
     build: webapp
     hostname: host-prod-a
