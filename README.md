@@ -3,6 +3,13 @@ A network pentest CTF built in Docker. Students have to use network scanning, pa
 
 **Note: This lab is a work in progress! This README lays out the intended end state of this project, but the current state of the codebase may not include some of these features!**
 
+## Getting started
+The docker containers needed to run the lab can be started with `docker compose up -d`.
+
+All traffic to the internal network needs to go through a VPN. This repo contains OpenVPN configs for an admin account, in `admin.ovpn`. Install OpenVPN and import that config file to access the internal network. The containers do not currently have static IP addresses.
+
+The docker containers can be stopped with `docker compose down`. 
+
 ## Design
 This lab uses Docker Compose to quickly and easily spin up a private network of containers. Each container will represent a unique device on the network, and each one will be given a unique IP.
 

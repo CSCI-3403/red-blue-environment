@@ -1,6 +1,19 @@
 version: "3.9"
 
 services:
+  vpn:
+    cap_add:
+      - NET_ADMIN
+    image: kylemanna/openvpn
+    container_name: vpn
+    ports:
+      - "1194:1194/udp"
+    restart: always
+    volumes:
+      - ./openvpn-config/conf:/etc/openvpn
+    networks:
+      - internal
+
   webapp:
     build: webapp
     hostname: host-prod-a
@@ -9,8 +22,6 @@ services:
       - "22"
     networks:
       - internal
-      # internal:
-        # ipv4_address: 172.20.0.3
     
   db:
     image: postgres
@@ -23,26 +34,6 @@ services:
       - "5432"
     networks:
       - internal
-      # internal:
-        # ipv4_address: 172.20.0.4
-
-  workstation1:
-    build: workstation
-    hostname: hiro
-    tty: true
-    networks:
-      - internal
-      # internal:
-        # ipv4_address: 172.20.0.65
-
-  workstation2:
-    build: workstation
-    hostname: yt
-    tty: true
-    networks:
-      - internal
-      # internal:
-        # ipv4_address: 172.20.0.67
 
 networks:
   internal:
