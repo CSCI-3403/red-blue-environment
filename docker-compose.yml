@@ -15,17 +15,19 @@ services:
         ipv4_address: 172.16.10.2
 
   external_webserver:
-    build: webserver
+    build: docker/webserver
     hostname: host-prod-a
     expose:
       - "80:80/tcp"
-      - "22"
+      - "443:443/tcp"
+      - "8088"
+      - "21"
     networks:
       private_net:
         ipv4_address: 172.16.10.4
 
   internal_webserver:
-    build: webserver
+    build: docker/webserver
     hostname: host-prod-b
     expose:
       - "80"
@@ -48,7 +50,7 @@ services:
         ipv4_address: 172.16.10.6
 
   dev_laptop_1:
-    build: dev_laptop
+    build: docker/dev_laptop
     restart: always
     hostname: alice
     networks:
@@ -56,7 +58,7 @@ services:
         ipv4_address: 172.16.10.100
 
   dev_laptop_2:
-    build: dev_laptop
+    build: docker/dev_laptop
     restart: always
     hostname: bob
     networks:
