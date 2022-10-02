@@ -1,19 +1,16 @@
-FROM weibeld/ubuntu-networking:latest
+# TODO: Replace this with a shell script that mimics dev behavior
+FROM httpd:2.4-alpine
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    sudo \
-    python3 \
-    python3-pip \
-    vim \
-    emacs \
-    curl
+# RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+#     sudo \
+#     python3 \
+#     python3-pip \
+#     vim \
+#     emacs \
+#     curl
 
-RUN systemctl enable ssh
-COPY index.html .
+# RUN useradd -mk /etc/skel/ admin
+# RUN usermod --shell "/bin/bash" admin
+# RUN echo "admin:password" | chpasswd
 
-RUN useradd -mk /etc/skel/ admin
-RUN usermod --shell "/bin/bash" admin
-RUN echo "admin:password" | chpasswd
-
-# TODO: Replace this will a shell script that mimics dev behavior
-CMD ["bash"]
+# CMD ["python3 -m http.server 80"]

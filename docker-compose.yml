@@ -2,18 +2,17 @@ version: "3.9"
 
 services:
   vpn:
+    image: kylemanna/openvpn
     cap_add:
       - NET_ADMIN
-    image: kylemanna/openvpn
-    container_name: vpn
     ports:
       - "1194:1194/udp"
     restart: always
     volumes:
-      - ./volumes/vpn:/etc/openvpn
+      - ./volumes/vpn/conf:/etc/openvpn
     networks:
       private_net:
-        ipv4_address: 172.16.10.1
+        ipv4_address: 172.16.10.2
 
   external_webserver:
     build: webserver
