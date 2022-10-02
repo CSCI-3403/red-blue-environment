@@ -10,18 +10,30 @@ services:
       - "1194:1194/udp"
     restart: always
     volumes:
-      - ./openvpn-config/conf:/etc/openvpn
+      - ./volumes/vpn:/etc/openvpn
     networks:
-      - internal
+      private_net:
+        ipv4_address: 172.16.10.1
 
-  webapp:
-    build: webapp
+  external_webserver:
+    build: webserver
     hostname: host-prod-a
+    expose:
+      - "80:80/tcp"
+      - "22"
+    networks:
+      private_net:
+        ipv4_address: 172.16.10.4
+
+  internal_webserver:
+    build: webserver
+    hostname: host-prod-b
     expose:
       - "80"
       - "22"
     networks:
-      - internal
+      private_net:
+        ipv4_address: 172.16.10.5
     
   db:
     image: postgres
@@ -33,10 +45,66 @@ services:
     expose:
       - "5432"
     networks:
-      - internal
+      private_net:
+        ipv4_address: 172.16.10.6
+
+  dev_laptop_1:
+    build: dev_laptop
+    restart: always
+    hostname: alice
+    networks:
+      private_net:
+        ipv4_address: 172.16.10.100
+
+  dev_laptop_2:
+    build: dev_laptop
+    restart: always
+    hostname: bob
+    networks:
+      private_net:
+        ipv4_address: 172.16.10.101
+
+  camera_1:
+    image: httpd:2.4-alpine
+    restart: always 
+    hostname: cam1 
+    expose:
+      - "80"
+    volumes:
+      - ./volumes/camera1:/usr/local/apache2/htdocs/
+    networks:
+      private_net:
+        ipv4_address: 172.16.10.200
+
+  camera_2:
+    image: httpd:2.4-alpine
+    restart: always 
+    hostname: cam1 
+    expose:
+      - "80"
+    volumes:
+      - ./volumes/camera1:/usr/local/apache2/htdocs/
+    networks:
+      private_net:
+        ipv4_address: 172.16.10.201
+
+  camera_3:
+    image: httpd:2.4-alpine
+    restart: always 
+    hostname: cam1 
+    expose:
+      - "80"
+    volumes:
+      - ./volumes/camera1:/usr/local/apache2/htdocs/
+    networks:
+      private_net:
+        ipv4_address: 172.16.10.202
 
 networks:
-  internal:
+  private_net:
+    driver: bridge
     ipam:
+      driver: default
       config:
-        - subnet: 172.20.0.0/16
+        - subnet: 172.16.10.0/24
+          gateway: 172.16.10.1

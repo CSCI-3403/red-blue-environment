@@ -1,0 +1,6 @@
+# Currently unused.
+# If we end up needing to customize the camera HTTP configuration, this is how we would do it.
+
+FROM httpd:2.4-alpine
+
+COPY ./httpd.conf /usr/local/apache2/conf/httpd.conf

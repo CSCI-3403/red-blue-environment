@@ -14,9 +14,9 @@ The docker containers can be stopped with `docker compose down`.
 This lab uses Docker Compose to quickly and easily spin up a private network of containers. Each container will represent a unique device on the network, and each one will be given a unique IP.
 
 The network will contain these devices, running services on these ports:
-* Router
-  * Students will use this router to access the VPN
-  * Port 443: OpenVPN server which allows students access into the network
+* VPN server
+  * Students will use this server to access the rest of the network
+  * Port 1194: OpenVPN server which allows students access into the network
 * Web server
   * External-facing web server. Contains the fake company's webpage.
   * Port 80: HTTP server
