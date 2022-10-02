@@ -66,37 +66,37 @@ services:
         ipv4_address: 172.16.10.101
 
   camera_1:
-    image: httpd:2.4-alpine
+    build: docker/camera
     restart: always 
     hostname: cam1 
     expose:
       - "80"
     volumes:
-      - ./volumes/camera1:/usr/local/apache2/htdocs/
+      - ./volumes/camera/feed_1:/usr/local/apache2/htdocs/feed
     networks:
       private_net:
         ipv4_address: 172.16.10.200
 
   camera_2:
-    image: httpd:2.4-alpine
+    build: docker/camera
     restart: always 
     hostname: cam1 
     expose:
       - "80"
     volumes:
-      - ./volumes/camera1:/usr/local/apache2/htdocs/
+      - ./volumes/camera/feed_2:/usr/local/apache2/htdocs/feed
     networks:
       private_net:
         ipv4_address: 172.16.10.201
 
   camera_3:
-    image: httpd:2.4-alpine
+    build: docker/camera
     restart: always 
     hostname: cam1 
     expose:
       - "80"
     volumes:
-      - ./volumes/camera1:/usr/local/apache2/htdocs/
+      - ./volumes/camera/feed_3:/usr/local/apache2/htdocs/feed
     networks:
       private_net:
         ipv4_address: 172.16.10.202
