@@ -21,7 +21,7 @@ services:
       - "80:80/tcp"
       - "443:443/tcp"
       - "8088"
-      - "21"
+      - "23"
     networks:
       private_net:
         ipv4_address: 172.16.10.4
@@ -31,7 +31,7 @@ services:
     hostname: host-prod-b
     expose:
       - "80"
-      - "22"
+      - "23"
     networks:
       private_net:
         ipv4_address: 172.16.10.5
@@ -53,6 +53,8 @@ services:
     build: docker/dev_laptop
     restart: always
     hostname: alice
+    volumes:
+      - ./volumes/users/alice:/usr/local/automation
     networks:
       private_net:
         ipv4_address: 172.16.10.100
@@ -61,6 +63,8 @@ services:
     build: docker/dev_laptop
     restart: always
     hostname: bob
+    volumes:
+      - ./volumes/users/bob:/usr/local/automation
     networks:
       private_net:
         ipv4_address: 172.16.10.101
@@ -72,7 +76,7 @@ services:
     expose:
       - "80"
     volumes:
-      - ./volumes/camera/feed_1:/usr/local/apache2/htdocs/feed
+      - ./volumes/cameras/feed_1:/usr/local/apache2/htdocs/feed
     networks:
       private_net:
         ipv4_address: 172.16.10.200
@@ -84,7 +88,7 @@ services:
     expose:
       - "80"
     volumes:
-      - ./volumes/camera/feed_2:/usr/local/apache2/htdocs/feed
+      - ./volumes/cameras/feed_2:/usr/local/apache2/htdocs/feed
     networks:
       private_net:
         ipv4_address: 172.16.10.201
@@ -96,7 +100,7 @@ services:
     expose:
       - "80"
     volumes:
-      - ./volumes/camera/feed_3:/usr/local/apache2/htdocs/feed
+      - ./volumes/cameras/feed_3:/usr/local/apache2/htdocs/feed
     networks:
       private_net:
         ipv4_address: 172.16.10.202

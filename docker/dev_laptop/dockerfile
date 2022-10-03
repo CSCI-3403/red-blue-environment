@@ -1,16 +1,10 @@
-# TODO: Replace this with a shell script that mimics dev behavior
 FROM httpd:2.4-alpine
 
-# RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-#     sudo \
-#     python3 \
-#     python3-pip \
-#     vim \
-#     emacs \
-#     curl
+RUN apk update && apk add \
+    curl \
+    expect \
+    busybox-extras
 
-# RUN useradd -mk /etc/skel/ admin
-# RUN usermod --shell "/bin/bash" admin
-# RUN echo "admin:password" | chpasswd
 
-# CMD ["python3 -m http.server 80"]
+# This shell file should be injected as a volume by docker-compose
+CMD ["/bin/sh", "/usr/local/automation/automation.sh"]

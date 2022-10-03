@@ -1,0 +1,19 @@
+#!/usr/bin/expect
+
+#If it all goes pear shaped the script will timeout after 20 seconds.
+set timeout 20
+
+set ip [lindex $argv 0]
+set user [lindex $argv 1]
+set password [lindex $argv 2]
+
+spawn telnet $ip 
+
+expect "login:" 
+send "$user "
+
+expect "Password:"
+send "$password "
+
+send "ls"
+send "exit"
