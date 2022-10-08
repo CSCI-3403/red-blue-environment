@@ -7,13 +7,27 @@ set ip [lindex $argv 0]
 set user [lindex $argv 1]
 set password [lindex $argv 2]
 
-spawn telnet $ip 
+spawn telnet $ip
 
-expect "login:" 
-send "$user "
+expect "login:"
+send "$user\r"
+
+sleep 1
 
 expect "Password:"
-send "$password "
+send "$password\r"
 
-send "ls"
-send "exit"
+sleep 1
+
+expect "$ "
+
+send "ls\r"
+expect "$ "
+
+sleep 1
+
+send "exit\r"
+
+expect "."
+
+exit

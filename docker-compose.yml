@@ -19,11 +19,9 @@ services:
     build: docker/webserver
     hostname: host-prod-a
     environment:
-      - USERS=bob:password;alice:password
+      - USERS=alice:{flag3-Sw0rdf1sh};bob:{flag2-L33T};carol:letmein:dev:snapplecap
     expose:
       - "80:80/tcp"
-      - "443:443/tcp"
-      - "8088"
       - "23"
     volumes:
       - ./volumes/website_prod:/usr/local/apache2/htdocs/prod
@@ -60,9 +58,9 @@ services:
   dev_laptop_1:
     build: docker/dev_laptop
     restart: always
-    hostname: alice
+    hostname: bob
     volumes:
-      - ./volumes/users/alice:/usr/local/automation
+      - ./volumes/bin/random_traffic:/usr/local/automation
     networks:
       private_net:
         ipv4_address: 172.16.10.121
@@ -70,9 +68,9 @@ services:
   dev_laptop_2:
     build: docker/dev_laptop
     restart: always
-    hostname: bob
+    hostname: alice
     volumes:
-      - ./volumes/users/bob:/usr/local/automation
+      - ./volumes/bin/telnet_login:/usr/local/automation
     networks:
       private_net:
         ipv4_address: 172.16.10.122

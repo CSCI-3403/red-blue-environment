@@ -48,15 +48,18 @@ Contains the custom Docker images used for some of the containers.
 Contains the data volumes which will be read and modified by some of the containers.
 
 ## Flags
-Flags will be written in the form "{flag-___}", where each one will have a unique value the students will have to discover. Flags will stored in the following places:
+Flags will be written in the form "{flag#-___}", where each one will have a unique value the students will have to discover. Flags will stored in the following places:
 
-* Written on the development website on the web server
-  * Students will just need to view the development webpage.
-* Inside the postgresql database
-  * Students can get the password from the internal documentation site. They will need to read the documentation, find the password to the database, and log in.
-* Written on a sticky note in one of the CCTV images
+
+* {flag1} On the internal wiki under 'new hire'
+  * Students will need to find the 'new hire' section of the internal wiki.
+* {flag2} Bob's password, which is written on a sticky note in one of the CCTV images
   * The students will simply need to find the CCTV cameras and look on port 80.
-* Bob's laptop will log into the web server on port 23, using this flag as a password
-  * The students will need to use tcpdump to intercept the traffic and read the password.
-* In a file in Alice's home directory on the web server.
-  * The students will need to brute-force Alice's password with John. They will be able to read the /etc/shadow file on the web server.
+* {flag3} Alice's laptop will log into the web server on port 23, using this flag as a password
+  * The students will need to log on to the webserver with the password found in flag1 or flag2, then use tcpdump to intercept the traffic and read the password.
+* {flag4} Inside the .ssh/id_rsa file in any user's home directory
+  * They have to log in with any user's password and read the .ssh/id_rsa file
+* {flag5} Inside the postgresql database
+  * Students can get the password from the internal documentation site. They will need to read the documentation, find the password to the database, and log in.
+* {flag6} In a file in Carol's home directory on the web server.
+  * The students will need to log on to the webserver using the password found in flag1 or flag2, then brute-force Carol's password with John. They will be able to read the /etc/shadow file on the web server.
