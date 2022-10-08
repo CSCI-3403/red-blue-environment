@@ -3,6 +3,7 @@ version: "3.9"
 services:
   vpn:
     image: kylemanna/openvpn
+    hostname: vpn
     cap_add:
       - NET_ADMIN
     ports:
@@ -17,11 +18,16 @@ services:
   external_webserver:
     build: docker/webserver
     hostname: host-prod-a
+    environment:
+      - USERS=bob:password;alice:password
     expose:
       - "80:80/tcp"
       - "443:443/tcp"
       - "8088"
       - "23"
+    volumes:
+      - ./volumes/website_prod:/usr/local/apache2/htdocs/prod
+      - ./volumes/website_staging:/usr/local/apache2/htdocs/staging
     networks:
       private_net:
         ipv4_address: 172.16.10.4
@@ -32,6 +38,8 @@ services:
     expose:
       - "80"
       - "23"
+    volumes:
+      - ./volumes/website_internal:/usr/local/apache2/htdocs/prod
     networks:
       private_net:
         ipv4_address: 172.16.10.5
@@ -41,8 +49,8 @@ services:
     restart: always
     hostname: db-prod-a
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: my_secret_example_password
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=example_test_password
     expose:
       - "5432"
     networks:
@@ -57,7 +65,7 @@ services:
       - ./volumes/users/alice:/usr/local/automation
     networks:
       private_net:
-        ipv4_address: 172.16.10.100
+        ipv4_address: 172.16.10.121
 
   dev_laptop_2:
     build: docker/dev_laptop
@@ -67,43 +75,43 @@ services:
       - ./volumes/users/bob:/usr/local/automation
     networks:
       private_net:
-        ipv4_address: 172.16.10.101
+        ipv4_address: 172.16.10.122
 
   camera_1:
     build: docker/camera
     restart: always 
-    hostname: cam1 
+    hostname: cam1
     expose:
       - "80"
     volumes:
-      - ./volumes/cameras/feed_1:/usr/local/apache2/htdocs/feed
+      - ./volumes/cameras/feed_1.jpg:/usr/local/apache2/htdocs/feed.jpg
     networks:
       private_net:
-        ipv4_address: 172.16.10.200
+        ipv4_address: 172.16.10.223
 
   camera_2:
     build: docker/camera
     restart: always 
-    hostname: cam1 
+    hostname: cam2
     expose:
       - "80"
     volumes:
-      - ./volumes/cameras/feed_2:/usr/local/apache2/htdocs/feed
+      - ./volumes/cameras/feed_2.jpg:/usr/local/apache2/htdocs/feed.jpg
     networks:
       private_net:
-        ipv4_address: 172.16.10.201
+        ipv4_address: 172.16.10.224
 
   camera_3:
     build: docker/camera
     restart: always 
-    hostname: cam1 
+    hostname: cam3
     expose:
       - "80"
     volumes:
-      - ./volumes/cameras/feed_3:/usr/local/apache2/htdocs/feed
+      - ./volumes/cameras/feed_3.jpg:/usr/local/apache2/htdocs/feed.jpg
     networks:
       private_net:
-        ipv4_address: 172.16.10.202
+        ipv4_address: 172.16.10.225
 
 networks:
   private_net:

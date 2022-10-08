@@ -5,6 +5,5 @@ RUN apk update && apk add \
     expect \
     busybox-extras
 
-
 # This shell file should be injected as a volume by docker-compose
 CMD ["/bin/sh", "/usr/local/automation/automation.sh"]
