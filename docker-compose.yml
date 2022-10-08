@@ -23,6 +23,7 @@ services:
     expose:
       - "80:80/tcp"
       - "23"
+      - "22"
     volumes:
       - ./volumes/production_website:/usr/local/apache2/htdocs/
     networks:
@@ -37,6 +38,7 @@ services:
     expose:
       - "80"
       - "23"
+      - "22"
     volumes:
       - ./volumes/internal_wiki:/usr/local/apache2/htdocs/
     networks:
