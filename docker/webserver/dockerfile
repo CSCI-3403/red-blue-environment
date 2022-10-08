@@ -14,6 +14,17 @@ RUN apt install -y telnetd
 RUN apt install -y openssh-server
 RUN apt install -y apache2
 
+# tcpdump
+RUN DEBIAN_FRONTEND=noninteractive apt install -y expect telnet tcpdump libcap2-bin
+
+RUN groupadd pcap
+
+RUN ln -s /usr/sbin/tcpdump /usr/bin/tcpdump
+RUN chgrp pcap /usr/bin/tcpdump
+RUN chmod 750 /usr/bin/tcpdump
+
+RUN setcap cap_net_raw+ep /usr/sbin/tcpdump
+
 # Webserver configs
 COPY ./httpd.conf /usr/local/apache2/conf/httpd.conf
 

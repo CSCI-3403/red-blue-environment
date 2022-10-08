@@ -26,6 +26,7 @@ services:
       - "22"
     volumes:
       - ./volumes/production_website:/usr/local/apache2/htdocs/
+      - ./volumes/files:/root/home
     networks:
       private_net:
         ipv4_address: 172.16.10.4
@@ -41,6 +42,7 @@ services:
       - "22"
     volumes:
       - ./volumes/internal_wiki:/usr/local/apache2/htdocs/
+      - ./volumes/files:/root/home
     networks:
       private_net:
         ipv4_address: 172.16.10.5
@@ -59,7 +61,7 @@ services:
     volumes:
       - ./volumes/database/create_flag.sh:/docker-entrypoint-initdb.d/create_flag.sh
     expose:
-      - "5432:5432"
+      - "5432"
     networks:
       private_net:
         ipv4_address: 172.16.10.6
