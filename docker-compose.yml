@@ -19,13 +19,12 @@ services:
     build: docker/webserver
     hostname: host-prod-a
     environment:
-      - USERS=alice:{flag3-Sw0rdf1sh};bob:{flag2-L33T};carol:letmein:dev:snapplecap
+      - USERS=dev:{flag1-internal-use-only};alice:{flag3-Sw0rdf1sh};bob:{flag2-L33T};carol:letmein
     expose:
       - "80:80/tcp"
       - "23"
     volumes:
-      - ./volumes/website_prod:/usr/local/apache2/htdocs/prod
-      - ./volumes/website_staging:/usr/local/apache2/htdocs/staging
+      - ./volumes/production_website:/usr/local/apache2/htdocs/
     networks:
       private_net:
         ipv4_address: 172.16.10.4
@@ -33,24 +32,33 @@ services:
   internal_webserver:
     build: docker/webserver
     hostname: host-prod-b
+    environment:
+      - USERS=dev:{flag1-internal-use-only};alice:{flag3-Sw0rdf1sh};bob:{flag2-L33T};carol:letmein
     expose:
       - "80"
       - "23"
     volumes:
-      - ./volumes/website_internal:/usr/local/apache2/htdocs/prod
+      - ./volumes/internal_wiki:/usr/local/apache2/htdocs/
     networks:
       private_net:
         ipv4_address: 172.16.10.5
     
   db:
-    image: postgres
+    image: postgres:latest
     restart: always
     hostname: db-prod-a
     environment:
       - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=example_test_password
+      - POSTGRES_PASSWORD=cashew-mouse-storm-public-plant
+      - POSTGRES_DB=sales
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    tmpfs:
+      - /var/lib/postgresql/data
+    volumes:
+      - ./volumes/database/create_flag.sh:/docker-entrypoint-initdb.d/create_flag.sh
+      # - ./volumes/database/data:/var/lib/postgresql/data
     expose:
-      - "5432"
+      - "5432:5432"
     networks:
       private_net:
         ipv4_address: 172.16.10.6
