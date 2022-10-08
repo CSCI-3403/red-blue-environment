@@ -56,7 +56,6 @@ services:
       - /var/lib/postgresql/data
     volumes:
       - ./volumes/database/create_flag.sh:/docker-entrypoint-initdb.d/create_flag.sh
-      # - ./volumes/database/data:/var/lib/postgresql/data
     expose:
       - "5432:5432"
     networks:
