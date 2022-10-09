@@ -1,6 +1,7 @@
 name=$1
 
-docker compose run --rm vpn easyrsa build-client-full "$name" nopass
+echo "Calling build_client.expect"
+expect build_client.expect "$name"
 
 # For some reason, reading pushed routes from the server also prevents the client from accessing
 # sites outside of the VPN. This is probably debuggable, but for time reasons I'm going with the
