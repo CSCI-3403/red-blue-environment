@@ -20,8 +20,10 @@ services:
     hostname: host-prod-a
     environment:
       - USERS=dev:{flag1-internal-use-only};alice:{flag3-Sw0rdf1sh};bob:{flag2-L33T};carol:letmein
-    expose:
+    ports:
       - "80:80/tcp"
+    expose:
+      - "80"
       - "23"
       - "22"
     volumes:
