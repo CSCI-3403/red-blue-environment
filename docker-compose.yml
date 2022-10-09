@@ -40,7 +40,6 @@ services:
       - USERS=dev:{flag1-internal-use-only};alice:{flag3-Sw0rdf1sh};bob:{flag2-L33T};carol:letmein
     expose:
       - "80"
-      - "23"
       - "22"
     volumes:
       - ./volumes/internal_wiki/site:/var/www/html
