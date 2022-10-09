@@ -99,6 +99,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-level="2"><a href="#data-access" class="nav-link">Data Access</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -116,7 +120,12 @@
 <p>These credentials should not be pushed to git or shared outside the company</p>
 </div>
 <p>Username: <code>dev</code><br />
-Password: <code>{flag1-internal-use-only}</code></p></div>
+Password: <code>{flag1-internal-use-only}</code></p>
+<p>These should give you access to most of the production machines.</p>
+<h2 id="data-access">Data Access</h2>
+<p>We store all of our customer data in the "sales" database. The normal service credentials cannot read the database for security reasons, only actual employees have that level of access. Any employee can connect using this command:</p>
+<p><code>psql -h 172.16.10.6 -U [your username] -d sales</code></p>
+<p>If you forget the table names, can run <code>\dt</code> to see a full list of them. Remember to put a semicolon after each database query!</p></div>
             </div>
         </div>
 

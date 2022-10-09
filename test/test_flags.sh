@@ -61,8 +61,8 @@ fi
 # Flag 5
 echo "Flag #5: Postgresql database"
 
-PGPASSWORD="{flag1-internal-use-only}" psql -h 172.16.10.6 -U dev -d sales < ./read_flag.sql | grep "$FLAG5" > /dev/null
-dev=$?
+# PGPASSWORD="{flag1-internal-use-only}" psql -h 172.16.10.6 -U dev -d sales < ./read_flag.sql | grep "$FLAG5" > /dev/null
+# dev=$?
 PGPASSWORD="$FLAG3" psql -h 172.16.10.6 -U alice -d sales < ./read_flag.sql | grep "$FLAG5" > /dev/null
 alice=$?
 PGPASSWORD="{flag2-L33T}" psql -h 172.16.10.6 -U bob -d sales < ./read_flag.sql | grep "$FLAG5" > /dev/null
@@ -70,9 +70,9 @@ bob=$?
 PGPASSWORD="letmein" psql -h 172.16.10.6 -U carol -d sales < ./read_flag.sql | grep "$FLAG5" > /dev/null
 carol=$?
 
-if [[ "$dev" != "0" ]]; then
-    echo "  [!] Dev cannot access flag #5"
-elif [[ "$alice" != "0" ]]; then
+# if [[ "$dev" != "0" ]]; then
+#     echo "  [!] Dev cannot access flag #5"
+if [[ "$alice" != "0" ]]; then
     echo "  [!] Alice cannot access flag #5"
 elif [[ "$bob" != "0" ]]; then
     echo "  [!] Bob cannot access flag #5"
