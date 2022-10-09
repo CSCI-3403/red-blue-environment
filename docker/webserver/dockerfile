@@ -35,4 +35,4 @@ CMD \
     service ssh start && \
     /usr/bin/add_users.sh ${USERS} && \
     /usr/bin/make_shadow_readable.sh && \
-    python3 -m http.server 80
+    apachectl -DFOREGROUND

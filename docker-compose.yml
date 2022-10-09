@@ -25,7 +25,7 @@ services:
       - "23"
       - "22"
     volumes:
-      - ./volumes/production_website:/usr/local/apache2/htdocs/
+      - ./volumes/production_website:/var/www/html
       - ./volumes/files:/root/home
     networks:
       private_net:
@@ -41,7 +41,7 @@ services:
       - "23"
       - "22"
     volumes:
-      - ./volumes/internal_wiki:/usr/local/apache2/htdocs/
+      - ./volumes/internal_wiki/site:/var/www/html
       - ./volumes/files:/root/home
     networks:
       private_net:

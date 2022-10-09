@@ -11,7 +11,14 @@ FLAG6="{flag6-*hackervoice*imin}"
 
 # Flag 1
 echo "Flag #1: Dev password on internal website"
-echo "  [!] Flag #1 test not implemented"
+
+curl http://172.16.10.5/guides/newhire/ | grep "$FLAG1"
+
+if [[ "$?" == "0" ]]; then
+    echo "  [*] Able to read flag #1 from the internal docs site"
+else
+    echo "  [!] Unable to find flag #1 on the internal docs site!"
+fi
 
 # Flag 2
 echo "Flag #2: Camera image"
