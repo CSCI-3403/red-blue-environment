@@ -25,6 +25,9 @@ RUN chmod 750 /usr/bin/tcpdump
 
 RUN setcap cap_net_raw+ep /usr/sbin/tcpdump
 
+# Postgres
+RUN apt install -y postgresql-client
+
 # Webserver configs
 COPY ./httpd.conf /usr/local/apache2/conf/httpd.conf
 
