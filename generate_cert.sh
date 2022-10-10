@@ -1,7 +1,7 @@
 name=$1
 
 echo "Calling build_client.expect"
-expect build_client.expect "$name"
+sudo expect build_client.expect "$name"
 
 # For some reason, reading pushed routes from the server also prevents the client from accessing
 # sites outside of the VPN. This is probably debuggable, but for time reasons I'm going with the
@@ -18,4 +18,4 @@ route 172.16.10.224 255.255.255.255 vpn_gateway
 route 172.16.10.225 255.255.255.255 vpn_gateway
 EOT
 
-docker compose run --rm vpn ovpn_getclient "$name" >> "$name.ovpn"
+sudo docker compose run --rm vpn ovpn_getclient "$name" >> "$name.ovpn"
