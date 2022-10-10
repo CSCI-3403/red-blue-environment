@@ -4,3 +4,4 @@ spawn docker compose run --rm vpn easyrsa build-client-full "$name" nopass
 
 expect "Enter pass phrase for /etc/openvpn/pki/private/ca.key:"
 send "CSCI-3403!\n"
+expect "Data Base Updated\n"
