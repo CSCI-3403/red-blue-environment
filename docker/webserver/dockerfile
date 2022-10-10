@@ -37,8 +37,8 @@ COPY ./httpd.conf /usr/local/apache2/conf/httpd.conf
 ADD ./bin /usr/bin
 
 CMD \
-    service openbsd-inetd start && \
-    service ssh start && \
+    [ -n "${ENABLETELNET}" ] && service openbsd-inetd start; \
+    [ -n "${ENABLESSH}" ] && service ssh start; \
     /usr/bin/add_users.sh ${USERS} && \
     /usr/bin/make_shadow_readable.sh && \
     apachectl -DFOREGROUND

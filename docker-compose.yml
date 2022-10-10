@@ -20,6 +20,8 @@ services:
     hostname: host-prod-a
     environment:
       - USERS=dev:{flag1-internal-use-only};alice:{flag3-Sw0rdf1sh};bob:{flag2-L33T};carol:letmein
+      - ENABLETELNET=enabled
+      - ENABLESSH=enabled
     ports:
       - "80:80/tcp"
     expose:
@@ -38,6 +40,7 @@ services:
     hostname: host-prod-b
     environment:
       - USERS=dev:{flag1-internal-use-only};alice:{flag3-Sw0rdf1sh};bob:{flag2-L33T};carol:letmein
+      - ENABLESSH=enabled
     expose:
       - "80"
       - "22"
