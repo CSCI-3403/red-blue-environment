@@ -8,7 +8,13 @@ The docker containers needed to run the lab can be started with `docker compose 
 Currently, the network consists of 9 containers, although only two of them expose external ports: The `external_webserver` container exposes ports 80 and 443 TCP, while the `vpn` container exposes an OpenVPN server on port 1194 UDP. The rest of the containers are only accessable through the VPN.
 
 ### Logging in to the VPN
-This repo contains OpenVPN configs for an admin account, in `admin.ovpn`. Install OpenVPN and import that config file to access the internal network.
+This repo already contains initialized VPN configs to log in as a student, in `student.ovpn`. Install OpenVPN and import that config file to access the internal network.
+
+To create your own VPN configs, delete the existing configs in `volumes/vpn` and use the following commands to initialize new certs:
+```
+docker compose run --rm vpn ovpn_genconfig -u [your URL]
+docker compose run --rm vpn ovpn_initpki
+```
 
 You can create new VPN accounts using the following commands:
 ```
@@ -27,7 +33,6 @@ The network currently contains these devices:
   * Port 1194: OpenVPN server
 * 172.16.10.4: External-facing web server. Contains the fake company's webpage, and exposes ports to the internet.
   * Port 80: HTTP server
-  * Port 443: HTTPS server
   * Port 8088: Development HTTP server
   * Port 21: TELNET server
 * 172.16.10.5: Internal-facing web server. Contains documentation for "new hires", including the passwords employees use to log into other servers.
