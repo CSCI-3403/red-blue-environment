@@ -1,24 +1,24 @@
 version: "3.9"
 
 services:
-  grafana:
-    image: grafana/grafana-oss
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./volumes/grafana:/var/lib/grafana
-    networks:
-      - internal
-      - external
+  # grafana:
+  #   image: grafana/grafana-oss
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - ./volumes/grafana:/var/lib/grafana
+  #   networks:
+  #     - internal
+  #     - external
 
-  monitoring:
-    build: docker/monitoring
-    ports:
-      - "9090:9090"
-    volumes:
-      - ./files/ssh/id_rsa:/root/.ssh/id_rsa
-    networks:
-      - internal
+  # monitoring:
+  #   build: docker/monitoring
+  #   ports:
+  #     - "9090:9090"
+  #   volumes:
+  #     - ./files/ssh/id_rsa:/root/.ssh/id_rsa
+  #   networks:
+  #     - internal
 
   external-vpn:
     image: kylemanna/openvpn
@@ -56,7 +56,26 @@ services:
     build: docker/ubuntu-base
     hostname: ip-10-10-10-6-us-west-2
     environment:
-      - USERS=admin:admin;dev:cheese
+      - USERS=admin:admin;devan:cheese
+    ports:
+      - "8000:80"
+    expose:
+      - "0-65535"
+    volumes:
+      - ./volumes/production_website:/var/www/html/
+      - ./files/ssh/id_rsa.pub:/root/.ssh/authorized_keys
+      - ./files/service/apache2/run:/etc/service/apache2/run
+      - ./files/service/apache2/apache2.conf:/etc/apache2/apache2.conf
+    networks:
+      internal:
+        ipv4_address: "10.10.10.6"
+      external:
+
+  prodb:
+    build: docker/ubuntu-base
+    hostname: ip-10-10-10-7-us-west-2
+    environment:
+      - USERS=admin:admin;devan:cheese
     expose:
       - "0-65535"
     volumes:
@@ -65,14 +84,14 @@ services:
       - ./files/service/apache2/run:/etc/service/apache2/run
     networks:
       internal:
-        ipv4_address: "10.10.10.6"
+        ipv4_address: "10.10.10.7"
       external:
 
-  prodb:
+  prodc:
     build: docker/ubuntu-base
-    hostname: ip-10-10-10-6-us-west-2
+    hostname: ip-10-10-10-8-us-west-2
     environment:
-      - USERS=admin:admin;dev:cheese;dbadmin:
+      - USERS=admin:admin;devan:cheese;dbadmin:dbadmin
     expose:
       - "0-65535"
     volumes:
@@ -81,7 +100,7 @@ services:
       - ./files/service/postgres/run:/etc/service/postgres/run
     networks:
       internal:
-        ipv4_address: "10.10.10.7"
+        ipv4_address: "10.10.10.8"
       external:
   
 networks:
@@ -98,5 +117,5 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 10.34.3.0/24
-          gateway: 10.34.3.1
+        - subnet: 10.44.44.0/24
+          gateway: 10.44.44.1

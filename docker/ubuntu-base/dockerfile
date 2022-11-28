@@ -32,13 +32,15 @@ RUN apt install -y \
     fortune \
     cowsay
 
-# System daemons
+# Telnet
 RUN apt install -y telnetd
-RUN apt install -y openssh-server
-RUN apt install -y apache2
 
-# Postgres
-RUN apt install -y postgresql-client
+# Apache and PHP
+RUN apt install -y apache2
+RUN apt install -y php libapache2-mod-php
+
+# MySQL
+RUN apt install -y mysql-server
 
 # Create utmp so that `w`, `who`, `users`, etc work
 RUN touch /run/utmp
