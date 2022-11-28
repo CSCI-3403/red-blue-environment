@@ -1,2 +1,4 @@
-volumes/vpn/conf/ipp.txt
+volumes/vpn
+files/ssh/id_rsa*
 *.secret
+*.ovpn

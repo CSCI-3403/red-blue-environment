@@ -1,0 +1,57 @@
+# This is the base image for any Ubuntu server which the students may get command-line access to.
+# It includes a number of common tools they would expect to find on an Ubuntu machine.
+FROM phusion/baseimage:jammy-1.0.1
+
+RUN apt-get update
+
+# Core tools
+RUN apt install -y \
+    sudo \
+    coreutils
+
+# Python
+RUN apt install -y \
+    python3 \
+    python3-pip
+
+# Networking
+RUN DEBIAN_FRONTEND=noninteractive apt install -y \
+    net-tools \
+    curl \
+    wget \
+    netcat
+
+# Editors
+RUN apt install -y \
+    vim \
+    emacs \
+    nano
+
+# Flavor
+RUN apt install -y \
+    fortune \
+    cowsay
+
+# System daemons
+RUN apt install -y telnetd
+RUN apt install -y openssh-server
+RUN apt install -y apache2
+
+# Postgres
+RUN apt install -y postgresql-client
+
+# Create utmp so that `w`, `who`, `users`, etc work
+RUN touch /run/utmp
+RUN chown root:utmp /run/utmp; chmod g+w /run/utmp
+
+# Generate SSH key
+RUN ssh-keygen -A
+# RUN ssh-keygen -P "" -t dsa -f /etc/ssh/ssh_host_dsa_key
+
+# Clean up APT when done.
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Add init scripts
+ADD ./init /etc/my_init.d
+
+CMD ["/sbin/my_init"]

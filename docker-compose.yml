@@ -1,136 +1,84 @@
 version: "3.9"
 
 services:
-  vpn:
+  grafana:
+    image: grafana/grafana-oss
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./volumes/grafana:/var/lib/grafana
+    networks:
+      - internal
+      - external
+
+  external-vpn:
     image: kylemanna/openvpn
-    hostname: vpn
     cap_add:
       - NET_ADMIN
     ports:
       - "1194:1194/udp"
     restart: always
     volumes:
-      - ./volumes/vpn/conf:/etc/openvpn
+      - ./volumes/vpn/external:/etc/openvpn
     networks:
-      private_net:
-        ipv4_address: 172.16.10.2
+      - external
 
-  external_webserver:
-    build: docker/webserver
-    hostname: host-prod-a
-    environment:
-      - USERS=dev:{flag1-internal-use-only};alice:{flag3-Sw0rdf1sh};bob:{flag2-L33T};carol:letmein
-      - ENABLETELNET=enabled
-      - ENABLESSH=enabled
+  internal-vpn:
+    image: kylemanna/openvpn
+    hostname: vpn.hattitude.biz
+    cap_add:
+      - NET_ADMIN
     ports:
-      - "80:80/tcp"
-    expose:
-      - "80"
-      - "23"
-      - "22"
+      - "1195:1194/udp"
+    restart: always
     volumes:
-      - ./volumes/production_website:/var/www/html
-      - ./volumes/files:/root/home
+      - ./volumes/vpn/internal:/etc/openvpn
     networks:
-      private_net:
-        ipv4_address: 172.16.10.4
+      - internal
 
-  internal_webserver:
-    build: docker/webserver
-    hostname: host-prod-b
+  kali:
+    build: docker/kali
+    ports:
+      - "22:22"
+    networks:
+      - external
+
+  monitoring:
+    build: docker/monitoring
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./files/ssh/id_rsa:/root/.ssh/id_rsa
+    networks:
+      - internal
+
+  proda:
+    build: docker/ubuntu-base
+    hostname: "ip-10-24-34-0.us-west-2.compute.internal"
     environment:
-      - USERS=dev:{flag1-internal-use-only};alice:{flag3-Sw0rdf1sh};bob:{flag2-L33T};carol:letmein
-      - ENABLESSH=enabled
+      - USERS=admin:admin;bob:cheese
     expose:
-      - "80"
-      - "22"
+      - "0-65535"
     volumes:
-      - ./volumes/internal_wiki/site:/var/www/html
-      - ./volumes/files:/root/home
+      - ./volumes/production_website:/var/www/html/
+      - ./files/ssh/id_rsa.pub:/root/.ssh/authorized_keys
     networks:
-      private_net:
-        ipv4_address: 172.16.10.5
-    
-  db:
-    image: postgres:latest
-    restart: always
-    hostname: db-prod-a
-    environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=cashew-mouse-storm-public-plant
-      - POSTGRES_DB=sales
-      - PGDATA=/var/lib/postgresql/data/pgdata
-    tmpfs:
-      - /var/lib/postgresql/data
-    volumes:
-      - ./volumes/database/create_flag.sh:/docker-entrypoint-initdb.d/create_flag.sh
-    expose:
-      - "5432"
-    networks:
-      private_net:
-        ipv4_address: 172.16.10.6
-
-  dev_laptop_1:
-    build: docker/dev_laptop
-    restart: always
-    hostname: bob
-    volumes:
-      - ./volumes/bin/random_traffic:/usr/local/automation
-    networks:
-      private_net:
-        ipv4_address: 172.16.10.121
-
-  dev_laptop_2:
-    build: docker/dev_laptop
-    restart: always
-    hostname: alice
-    volumes:
-      - ./volumes/bin/telnet_login:/usr/local/automation
-    networks:
-      private_net:
-        ipv4_address: 172.16.10.122
-
-  camera_1:
-    build: docker/camera
-    restart: always 
-    hostname: cam1
-    expose:
-      - "80"
-    volumes:
-      - ./volumes/cameras/feed_1.jpg:/usr/local/apache2/htdocs/feed.jpg
-    networks:
-      private_net:
-        ipv4_address: 172.16.10.223
-
-  camera_2:
-    build: docker/camera
-    restart: always 
-    hostname: cam2
-    expose:
-      - "80"
-    volumes:
-      - ./volumes/cameras/feed_2.jpg:/usr/local/apache2/htdocs/feed.jpg
-    networks:
-      private_net:
-        ipv4_address: 172.16.10.224
-
-  camera_3:
-    build: docker/camera
-    restart: always 
-    hostname: cam3
-    expose:
-      - "80"
-    volumes:
-      - ./volumes/cameras/feed_3.jpg:/usr/local/apache2/htdocs/feed.jpg
-    networks:
-      private_net:
-        ipv4_address: 172.16.10.225
-
+      - internal
+      - external
+  
 networks:
-  private_net:
+  internal:
     driver: bridge
     ipam:
       driver: default
       config:
-        - subnet: 172.16.10.0/24
-          gateway: 172.16.10.1
+        - subnet: 10.10.10.0/24
+          gateway: 10.10.10.1
+
+  external:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.34.3.0/24
+          gateway: 10.34.3.1
