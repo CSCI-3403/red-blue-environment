@@ -6,7 +6,7 @@ function init() {
     hostname="$2"
     port="$3"
 
-    docker compose run --rm "$dockername" ovpn_genconfig -u "udp://$hostname:$port"
+    docker compose run --rm "$dockername" ovpn_genconfig -d -u "udp://$hostname:$port"
     docker compose run --rm "$dockername" ovpn_initpki nopass
 
 }

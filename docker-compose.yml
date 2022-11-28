@@ -11,6 +11,15 @@ services:
       - internal
       - external
 
+  monitoring:
+    build: docker/monitoring
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./files/ssh/id_rsa:/root/.ssh/id_rsa
+    networks:
+      - internal
+
   external-vpn:
     image: kylemanna/openvpn
     cap_add:
@@ -43,28 +52,37 @@ services:
     networks:
       - external
 
-  monitoring:
-    build: docker/monitoring
-    ports:
-      - "9090:9090"
-    volumes:
-      - ./files/ssh/id_rsa:/root/.ssh/id_rsa
-    networks:
-      - internal
-
   proda:
     build: docker/ubuntu-base
-    hostname: "ip-10-24-34-0.us-west-2.compute.internal"
+    hostname: ip-10-10-10-6-us-west-2
     environment:
-      - USERS=admin:admin;bob:cheese
+      - USERS=admin:admin;dev:cheese
     expose:
       - "0-65535"
     volumes:
       - ./volumes/production_website:/var/www/html/
       - ./files/ssh/id_rsa.pub:/root/.ssh/authorized_keys
+      - ./files/service/apache2/run:/etc/service/apache2/run
     networks:
-      - internal
-      - external
+      internal:
+        ipv4_address: "10.10.10.6"
+      external:
+
+  prodb:
+    build: docker/ubuntu-base
+    hostname: ip-10-10-10-6-us-west-2
+    environment:
+      - USERS=admin:admin;dev:cheese;dbadmin:
+    expose:
+      - "0-65535"
+    volumes:
+      - ./volumes/production_website:/var/www/html/
+      - ./files/ssh/id_rsa.pub:/root/.ssh/authorized_keys
+      - ./files/service/postgres/run:/etc/service/postgres/run
+    networks:
+      internal:
+        ipv4_address: "10.10.10.7"
+      external:
   
 networks:
   internal:
