@@ -21,11 +21,13 @@ mysql <<-EOSQL
    );
 
    CREATE TABLE creditcards (
+      name TEXT,
       number TEXT,
       exp TEXT,
       code TEXT
    );
 
-   INSERT INTO reviews VALUES ('alice', 'Test message', 'test.pdf');
-   INSERT INTO creditcards VALUES ('123456789012', '10/26', '152');
+   INSERT INTO reviews VALUES ('alex', 'I ordered a hat but I got a cat instead. 10/10 no regrets', 'attachments/oliver.jpg');
+   INSERT INTO reviews VALUES ('alice', 'This is the best website since Yahoo Answers', NULL);
+   INSERT INTO creditcards VALUES ('alice', '123456789012', '10/26', '152');
 EOSQL
