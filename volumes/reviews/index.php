@@ -26,7 +26,7 @@
 								<label for="attachment">[Optional] Include attachment:</label>
 								<input class="input"  type="file" name="attachment" id="attachment">
 							</div>
-							<input class="input"  type="submit" value="Post review" name="submit">
+							<input class="input button is-success"  type="submit" value="Post review" name="submit">
 						</form>
 
 						<h3 class="subtitle">Other user reviews</h3>
