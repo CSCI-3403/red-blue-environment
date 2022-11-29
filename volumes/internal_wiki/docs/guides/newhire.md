@@ -2,25 +2,30 @@
 
 ## Getting VPN access
 
-Send an email to Alice, the head of IT. She will create an account for you on the VPN, which should give you all the access you need to access our production servers!
+Send an email to Alice, the head of IT. She will create an account for you on the VPN, which should give you access to our production servers!
 
-## Script Credentials
+## Maintaining servers
 
-Please don't use your personal account credentials in any scripts, as that could cause your code to fail if you ever get fired. Instead, please use these service account credentials for any automated jobs:
+We run four servers:
+- Public web server #1 (10.10.10.6)
+- Public web server #2 (10.10.10.7)
+- Database server (10.10.10.8)
+- Internal web server (10.10.10.9)
 
-!!! warning inline end
+The web servers run our various internal websites. They all use Apache2, and the files are stored in 
 
-    These credentials should not be pushed to git or shared outside the company
+The database server stores our data. It runs a mysql database.
 
-Username: `dev`  
-Password: `{flag1-internal-use-only}`
+The one internal web server is hosting this documentation! It is configured the same as the external servers, but is not available to the internet.
 
-These should give you access to most of the production machines.
+## Getting server access
 
-## Data Access
+Any of the servers can be accessed over SSH using these maintenance credentials:
+- Username: root
+- Password: hattitude
 
-We store all of our customer data in the "sales" database. The normal service credentials cannot read the database for security reasons, only actual employees have that level of access. Any employee can connect using this command:
+To access the mysql database, you can use the credentials:
+- Username: dbadmin
+- Password: dbaccess
 
-`psql -h 172.16.10.6 -U [your username] -d sales`
-
-If you forget the table names, can run `\dt` to see a full list of them. Remember to put a semicolon after each database query!
+After getting access, we encourage employees to make their own user account.

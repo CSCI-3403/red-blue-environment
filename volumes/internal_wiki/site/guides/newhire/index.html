@@ -41,15 +41,7 @@
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../benefits/" class="dropdown-item">Employee Benefits</a>
-</li>
-                                    
-<li>
     <a href="./" class="dropdown-item active">New Hire: Getting Started</a>
-</li>
-                                    
-<li>
-    <a href="../payroll/" class="dropdown-item">Payroll</a>
 </li>
                                 </ul>
                             </li>
@@ -62,12 +54,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../benefits/" class="nav-link">
+                                <a rel="prev" href="../.." class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../payroll/" class="nav-link">
+                                <a rel="next" class="nav-link disabled">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -95,11 +87,11 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#script-credentials" class="nav-link">Script Credentials</a>
+            <li class="nav-item" data-level="2"><a href="#maintaining-servers" class="nav-link">Maintaining servers</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#data-access" class="nav-link">Data Access</a>
+            <li class="nav-item" data-level="2"><a href="#getting-server-access" class="nav-link">Getting server access</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -112,20 +104,24 @@
 
 <h1 id="new-hire-getting-started">New Hire: Getting Started</h1>
 <h2 id="getting-vpn-access">Getting VPN access</h2>
-<p>Send an email to Alice, the head of IT. She will create an account for you on the VPN, which should give you all the access you need to access our production servers!</p>
-<h2 id="script-credentials">Script Credentials</h2>
-<p>Please don't use your personal account credentials in any scripts, as that could cause your code to fail if you ever get fired. Instead, please use these service account credentials for any automated jobs:</p>
-<div class="admonition warning inline end">
-<p class="admonition-title">Warning</p>
-<p>These credentials should not be pushed to git or shared outside the company</p>
-</div>
-<p>Username: <code>dev</code><br />
-Password: <code>{flag1-internal-use-only}</code></p>
-<p>These should give you access to most of the production machines.</p>
-<h2 id="data-access">Data Access</h2>
-<p>We store all of our customer data in the "sales" database. The normal service credentials cannot read the database for security reasons, only actual employees have that level of access. Any employee can connect using this command:</p>
-<p><code>psql -h 172.16.10.6 -U [your username] -d sales</code></p>
-<p>If you forget the table names, can run <code>\dt</code> to see a full list of them. Remember to put a semicolon after each database query!</p></div>
+<p>Send an email to Alice, the head of IT. She will create an account for you on the VPN, which should give you access to our production servers!</p>
+<h2 id="maintaining-servers">Maintaining servers</h2>
+<p>We run four servers:
+- Public web server #1 (10.10.10.6)
+- Public web server #2 (10.10.10.7)
+- Database server (10.10.10.8)
+- Internal web server (10.10.10.9)</p>
+<p>The web servers run our various internal websites. They all use Apache2, and the files are stored in </p>
+<p>The database server stores our data. It runs a mysql database.</p>
+<p>The one internal web server is hosting this documentation! It is configured the same as the external servers, but is not available to the internet.</p>
+<h2 id="getting-server-access">Getting server access</h2>
+<p>Any of the servers can be accessed over SSH using these maintenance credentials:
+- Username: root
+- Password: hattitude</p>
+<p>To access the mysql database, you can use the credentials:
+- Username: dbadmin
+- Password: dbaccess</p>
+<p>After getting access, we encourage employees to make their own user account.</p></div>
             </div>
         </div>
 
