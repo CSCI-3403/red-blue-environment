@@ -1,2 +1,2 @@
 #!/bin/bash
-apachectl -DFOREGROUND
+apachectl --with-mysqli -DFOREGROUND

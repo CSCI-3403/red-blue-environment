@@ -1,4 +1,4 @@
-volumes/vpn
+# volumes/vpn
 files/ssh/id_rsa*
 *.secret
-*.ovpn
+# *.ovpn

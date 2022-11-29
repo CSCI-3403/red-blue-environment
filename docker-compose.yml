@@ -6,7 +6,7 @@ services:
     cap_add:
       - NET_ADMIN
     ports:
-      - "1194:1194/udp"
+      - "1195:1194/udp"
     restart: always
     volumes:
       - ./volumes/vpn/external:/etc/openvpn
@@ -19,7 +19,7 @@ services:
     cap_add:
       - NET_ADMIN
     ports:
-      - "1195:1194/udp"
+      - "1194:1194/udp"
     restart: always
     volumes:
       - ./volumes/vpn/internal:/etc/openvpn
@@ -28,6 +28,7 @@ services:
 
   kali:
     build: docker/kali
+    hostname: kali
     ports:
       - "22:22"
     networks:
@@ -37,9 +38,7 @@ services:
     build: docker/ubuntu-base
     hostname: proda-10-10-10-6
     environment:
-      - USERS=admin:admin;devan:cheese
-    ports:
-      - "8000:80"
+      - USERS=webadmin:010101;user:888888;bob:a1b2c3;test:changeme;root:hattitude
     expose:
       - "0-65535"
     volumes:
@@ -57,11 +56,11 @@ services:
     build: docker/ubuntu-base
     hostname: prodb-10-10-10-7
     environment:
-      - USERS=admin:admin;devan:cheese
+      - USERS=webadmin:010101;user:888888;alice:gizmo1;root:hattitude
     expose:
       - "0-65535"
     volumes:
-      - ./volumes/feedback:/var/www/html/
+      - ./volumes/reviews:/var/www/html/
       - ./files/ssh/id_rsa.pub:/root/.ssh/authorized_keys
       - ./files/service/apache2/run:/etc/service/apache2/run
       - ./files/service/apache2/apache2.conf:/etc/apache2/apache2.conf
@@ -75,13 +74,14 @@ services:
     build: docker/ubuntu-base
     hostname: prodc-10-10-10-8
     environment:
-      - USERS=admin:admin;devan:cheese;dbadmin:dbadmin
+      - USERS=dbadmin:dbaccess;sysadmin:friend;alice:gizmo1;test:changeme;root:hattitude
     expose:
       - "0-65535"
     volumes:
-      - ./volumes/production_website:/var/www/html/
       - ./files/ssh/id_rsa.pub:/root/.ssh/authorized_keys
       - ./files/service/mysql/run:/etc/service/mysql/run
+      - ./files/service/mysql/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
+      - ./files/service/mysql/init_db.sh:/etc/init_db.sh
       - ./volumes/database:/opt/mysql/mysql/data
     networks:
       internal-net:
@@ -91,7 +91,7 @@ services:
     build: docker/ubuntu-base
     hostname: inta-10-10-10-9
     environment:
-      - USERS=admin:admin;devan:cheese
+      - USERS=sysadmin:friend;bob:a1b2c3;user:letmein;root:hattitude
     expose:
       - "0-65535"
     volumes:
