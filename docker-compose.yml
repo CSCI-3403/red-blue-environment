@@ -1,25 +1,6 @@
 version: "3.9"
 
 services:
-  # grafana:
-  #   image: grafana/grafana-oss
-  #   ports:
-  #     - "3000:3000"
-  #   volumes:
-  #     - ./volumes/grafana:/var/lib/grafana
-  #   networks:
-  #     - internal
-  #     - external
-
-  # monitoring:
-  #   build: docker/monitoring
-  #   ports:
-  #     - "9090:9090"
-  #   volumes:
-  #     - ./files/ssh/id_rsa:/root/.ssh/id_rsa
-  #   networks:
-  #     - internal
-
   external-vpn:
     image: kylemanna/openvpn
     cap_add:
@@ -30,7 +11,7 @@ services:
     volumes:
       - ./volumes/vpn/external:/etc/openvpn
     networks:
-      - external
+      - external-net
 
   internal-vpn:
     image: kylemanna/openvpn
@@ -43,18 +24,18 @@ services:
     volumes:
       - ./volumes/vpn/internal:/etc/openvpn
     networks:
-      - internal
+      - internal-net
 
   kali:
     build: docker/kali
     ports:
       - "22:22"
     networks:
-      - external
+      - external-net
 
   proda:
     build: docker/ubuntu-base
-    hostname: ip-10-10-10-6-us-west-2
+    hostname: proda-10-10-10-6
     environment:
       - USERS=admin:admin;devan:cheese
     ports:
@@ -67,29 +48,32 @@ services:
       - ./files/service/apache2/run:/etc/service/apache2/run
       - ./files/service/apache2/apache2.conf:/etc/apache2/apache2.conf
     networks:
-      internal:
+      internal-net:
         ipv4_address: "10.10.10.6"
-      external:
+      external-net:
+        ipv4_address: "10.44.44.12"
 
   prodb:
     build: docker/ubuntu-base
-    hostname: ip-10-10-10-7-us-west-2
+    hostname: prodb-10-10-10-7
     environment:
       - USERS=admin:admin;devan:cheese
     expose:
       - "0-65535"
     volumes:
-      - ./volumes/production_website:/var/www/html/
+      - ./volumes/feedback:/var/www/html/
       - ./files/ssh/id_rsa.pub:/root/.ssh/authorized_keys
       - ./files/service/apache2/run:/etc/service/apache2/run
+      - ./files/service/apache2/apache2.conf:/etc/apache2/apache2.conf
     networks:
-      internal:
+      internal-net:
         ipv4_address: "10.10.10.7"
-      external:
+      external-net:
+        ipv4_address: "10.44.44.13"
 
   prodc:
     build: docker/ubuntu-base
-    hostname: ip-10-10-10-8-us-west-2
+    hostname: prodc-10-10-10-8
     environment:
       - USERS=admin:admin;devan:cheese;dbadmin:dbadmin
     expose:
@@ -97,14 +81,44 @@ services:
     volumes:
       - ./volumes/production_website:/var/www/html/
       - ./files/ssh/id_rsa.pub:/root/.ssh/authorized_keys
-      - ./files/service/postgres/run:/etc/service/postgres/run
+      - ./files/service/mysql/run:/etc/service/mysql/run
+      - ./volumes/database:/opt/mysql/mysql/data
     networks:
-      internal:
+      internal-net:
         ipv4_address: "10.10.10.8"
-      external:
+
+  inta:
+    build: docker/ubuntu-base
+    hostname: inta-10-10-10-9
+    environment:
+      - USERS=admin:admin;devan:cheese
+    expose:
+      - "0-65535"
+    volumes:
+      - ./volumes/internal_wiki:/var/www/html/
+      - ./files/ssh/id_rsa.pub:/root/.ssh/authorized_keys
+      - ./files/service/apache2/run:/etc/service/apache2/run
+    networks:
+      internal-net:
+        ipv4_address: "10.10.10.9"
+
+  # dns:
+  #   build: docker/ubuntu-base
+  #   hostname: proda-10-10-10-2
+  #   environment:
+  #     - USERS=admin:admin;devan:cheese
+  #   expose:
+  #     - "0-65535"
+  #   volumes:
+  #     - ./files/ssh/id_rsa.pub:/root/.ssh/authorized_keys
+  #   networks:
+  #     internal-net:
+  #       ipv4_address: "10.10.10.2"
+  #     external-net:
+  #       ipv4_address: "10.44.44.2"
   
 networks:
-  internal:
+  internal-net:
     driver: bridge
     ipam:
       driver: default
@@ -112,7 +126,7 @@ networks:
         - subnet: 10.10.10.0/24
           gateway: 10.10.10.1
 
-  external:
+  external-net:
     driver: bridge
     ipam:
       driver: default

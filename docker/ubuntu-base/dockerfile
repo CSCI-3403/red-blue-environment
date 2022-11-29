@@ -19,7 +19,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt install -y \
     net-tools \
     curl \
     wget \
-    netcat
+    netcat \
+    nmap
 
 # Editors
 RUN apt install -y \
