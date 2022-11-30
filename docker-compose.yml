@@ -57,6 +57,8 @@ services:
         ipv4_address: "10.10.10.6"
       external-net:
         ipv4_address: "10.44.44.12"
+    dns:
+      - "10.10.10.2"
 
   prodb:
     build: docker/ubuntu-base
@@ -75,6 +77,8 @@ services:
         ipv4_address: "10.10.10.7"
       external-net:
         ipv4_address: "10.44.44.13"
+    dns:
+      - "10.10.10.2"
 
   prodc:
     build: docker/ubuntu-base
@@ -92,6 +96,8 @@ services:
     networks:
       internal-net:
         ipv4_address: "10.10.10.8"
+    dns:
+      - "10.10.10.2"
 
   inta:
     build: docker/ubuntu-base
@@ -107,6 +113,8 @@ services:
     networks:
       internal-net:
         ipv4_address: "10.10.10.9"
+    dns:
+      - "10.10.10.2"
 
   dns:
     hostname: dns
@@ -119,11 +127,9 @@ services:
     environment:
       - DNS_SERVER_DOMAIN=dns-server #The primary domain name used by this DNS Server to identify itself.
       - DNS_SERVER_ADMIN_PASSWORD=swordfish
-      - DNS_SERVER_FORWARDERS=1.1.1.1, 8.8.8.8 #Comma separated list of forwarder addresses.
+      - DNS_SERVER_FORWARDERS=8.8.8.8, 8.8.4.4 #Comma separated list of forwarder addresses.
     volumes:
-      - ./volumes/config:/etc/dns/config
-    # sysctls:
-    #   - net.ipv4.ip_local_port_range=1024 65000
+      - ./volumes/dns:/etc/dns/config
     networks:
       internal-net:
         ipv4_address: "10.10.10.2"
