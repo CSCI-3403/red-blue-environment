@@ -7,12 +7,12 @@ Send an email to Alice, the head of IT. She will create an account for you on th
 ## Maintaining servers
 
 We run four servers:
-- Public web server #1 (10.10.10.6)
-- Public web server #2 (10.10.10.7)
-- Database server (10.10.10.8)
-- Internal web server (10.10.10.9)
+- web1.hat.biz (10.10.10.6): Public web server #1  
+- web2.hat.biz (10.10.10.7): Public web server #2  
+- db.hat.biz (10.10.10.8): Database server  
+- docs.hat.biz (10.10.10.9): Internal web server  
 
-The web servers run our various internal websites. They all use Apache2, and the files are stored in 
+The web servers run our various internal websites. They all use Apache2, and the files are stored in the usual path of /var/www/html.
 
 The database server stores our data. It runs a mysql database.
 
@@ -21,11 +21,11 @@ The one internal web server is hosting this documentation! It is configured the 
 ## Getting server access
 
 Any of the servers can be accessed over SSH using these maintenance credentials:
-- Username: root
-- Password: hattitude
+- Username: root  
+- Password: hattitude  
 
 To access the mysql database, you can use the credentials:
-- Username: dbadmin
-- Password: dbaccess
+- Username: dbadmin  
+- Password: dbaccess  
 
 After getting access, we encourage employees to make their own user account.
