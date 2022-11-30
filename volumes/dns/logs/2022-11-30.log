@@ -2364,3 +2364,10 @@ TechnitiumLibrary.Net.Dns.DnsClientNoResponseException: DnsClient failed to reso
 [2022-11-30 21:33:16 UTC] [0.0.0.0:5380] HTTP Web Service was started successfully.
 [2022-11-30 21:33:16 UTC] DNS Server (v10.0.0.0) was started successfully.
 [2022-11-30 21:33:26 UTC] DNS Server auth config file was saved: /etc/dns/config/auth.config
+[2022-11-30 22:15:59 UTC] [10.10.10.3:65069] DnsServerCore.DnsWebServiceException: Invalid username or password for user: admin
+   at DnsServerCore.Auth.AuthManager.CreateSessionAsync(UserSessionType type, String tokenName, String username, String password, IPAddress remoteAddress, String userAgent) in Z:\Technitium\Projects\DnsServer\DnsServerCore\Auth\AuthManager.cs:line 642
+   at DnsServerCore.WebServiceAuthApi.LoginAsync(HttpListenerRequest request, JsonTextWriter jsonWriter, UserSessionType sessionType) in Z:\Technitium\Projects\DnsServer\DnsServerCore\WebServiceAuthApi.cs:line 390
+   at DnsServerCore.DnsWebService.ProcessRequestAsync(HttpListenerRequest request, HttpListenerResponse response) in Z:\Technitium\Projects\DnsServer\DnsServerCore\DnsWebService.cs:line 381
+[2022-11-30 22:16:05 UTC] [10.10.10.3:65070] [admin] User logged in.
+[2022-11-30 22:16:07 UTC] [10.10.10.3:65073] Check for update was done {updateAvailable: False; updateVersion: 10.0; updateTitle: New Update (v10.0) Available!; updateMessage: Follow the instructions from the link below to update the DNS server to the latest version. Read the change logs before installing this update to know if there are any breaking changes.; instructionsLink: https://blog.technitium.com/2017/11/running-dns-server-on-ubuntu-linux.html; changeLogLink: https://github.com/TechnitiumSoftware/DnsServer/blob/master/CHANGELOG.md;}
+[2022-11-30 22:16:15 UTC] DNS Server auth config file was saved: /etc/dns/config/auth.config

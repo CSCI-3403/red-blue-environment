@@ -2,5 +2,5 @@
 files/ssh/id_rsa*
 *.secret
 # *.ovpn
-volumes/dns/logs
-volumes/dns/stats
+volumes/dns/logs/
+volumes/dns/stats/
