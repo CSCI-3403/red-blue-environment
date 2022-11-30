@@ -1,0 +1,2 @@
+name	number	exp	code
+alice	123456789012	10/26	152

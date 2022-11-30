@@ -2324,3 +2324,43 @@ TechnitiumLibrary.Net.Dns.DnsClientNoResponseException: DnsClient failed to reso
 [2022-11-30 21:11:13 UTC] DNS Server (v10.0.0.0) was started successfully.
 [2022-11-30 21:11:19 UTC] [10.44.44.1:39420] Check for update was done {updateAvailable: False; updateVersion: 10.0; updateTitle: New Update (v10.0) Available!; updateMessage: Follow the instructions from the link below to update the DNS server to the latest version. Read the change logs before installing this update to know if there are any breaking changes.; instructionsLink: https://blog.technitium.com/2017/11/running-dns-server-on-ubuntu-linux.html; changeLogLink: https://github.com/TechnitiumSoftware/DnsServer/blob/master/CHANGELOG.md;}
 [2022-11-30 21:11:23 UTC] DNS Server auth config file was saved: /etc/dns/config/auth.config
+[2022-11-30 21:29:19 UTC] Logging started.
+[2022-11-30 21:29:19 UTC] DNS Server auth config file was loaded: /etc/dns/config/auth.config
+[2022-11-30 21:29:20 UTC] DNS Server config file was loaded: /etc/dns/config/dns.config
+[2022-11-30 21:29:20 UTC] DNS Server successfully loaded zone file: /etc/dns/config/zones/ntp.org.zone
+[2022-11-30 21:29:20 UTC] DNS Server successfully loaded zone file: /etc/dns/config/zones/hat.zone
+[2022-11-30 21:29:20 UTC] DNS Server successfully loaded zone file: /etc/dns/config/zones/hat.biz.zone
+[2022-11-30 21:29:20 UTC] DNS Server successfully loaded zone file: /etc/dns/config/zones/server.zone
+[2022-11-30 21:29:20 UTC] DNS Server is loading allowed zone file: /etc/dns/config/allowed.config
+[2022-11-30 21:29:20 UTC] DNS Server is loading blocked zone file: /etc/dns/config/blocked.config
+[2022-11-30 21:29:20 UTC] [0.0.0.0:53] [UDP] DNS Server was bound successfully.
+[2022-11-30 21:29:20 UTC] [0.0.0.0:53] [TCP] DNS Server was bound successfully.
+[2022-11-30 21:29:20 UTC] [[::]:53] [UDP] DNS Server was bound successfully.
+[2022-11-30 21:29:20 UTC] [[::]:53] [TCP] DNS Server was bound successfully.
+[2022-11-30 21:29:20 UTC] DHCP Server successfully loaded scope: Default
+[2022-11-30 21:29:20 UTC] DHCP Server successfully loaded scope file: /etc/dns/config/scopes/Default.scope
+[2022-11-30 21:29:20 UTC] [0.0.0.0:5380] HTTP Web Service was started successfully.
+[2022-11-30 21:29:20 UTC] DNS Server (v10.0.0.0) was started successfully.
+[2022-11-30 21:29:30 UTC] DNS Server auth config file was saved: /etc/dns/config/auth.config
+[2022-11-30 21:33:13 UTC] DHCP Server successfully unloaded scope: Default
+[2022-11-30 21:33:13 UTC] DNS Server (v10.0.0.0) was stopped successfully.
+[2022-11-30 21:33:13 UTC] DNS Server auth config file was saved: /etc/dns/config/auth.config
+[2022-11-30 21:33:13 UTC] Logging stopped.
+[2022-11-30 21:33:16 UTC] Logging started.
+[2022-11-30 21:33:16 UTC] DNS Server auth config file was loaded: /etc/dns/config/auth.config
+[2022-11-30 21:33:16 UTC] DNS Server config file was loaded: /etc/dns/config/dns.config
+[2022-11-30 21:33:16 UTC] DNS Server successfully loaded zone file: /etc/dns/config/zones/ntp.org.zone
+[2022-11-30 21:33:16 UTC] DNS Server successfully loaded zone file: /etc/dns/config/zones/hat.zone
+[2022-11-30 21:33:16 UTC] DNS Server successfully loaded zone file: /etc/dns/config/zones/hat.biz.zone
+[2022-11-30 21:33:16 UTC] DNS Server successfully loaded zone file: /etc/dns/config/zones/server.zone
+[2022-11-30 21:33:16 UTC] DNS Server is loading allowed zone file: /etc/dns/config/allowed.config
+[2022-11-30 21:33:16 UTC] DNS Server is loading blocked zone file: /etc/dns/config/blocked.config
+[2022-11-30 21:33:16 UTC] [0.0.0.0:53] [UDP] DNS Server was bound successfully.
+[2022-11-30 21:33:16 UTC] [0.0.0.0:53] [TCP] DNS Server was bound successfully.
+[2022-11-30 21:33:16 UTC] [[::]:53] [UDP] DNS Server was bound successfully.
+[2022-11-30 21:33:16 UTC] [[::]:53] [TCP] DNS Server was bound successfully.
+[2022-11-30 21:33:16 UTC] DHCP Server successfully loaded scope: Default
+[2022-11-30 21:33:16 UTC] DHCP Server successfully loaded scope file: /etc/dns/config/scopes/Default.scope
+[2022-11-30 21:33:16 UTC] [0.0.0.0:5380] HTTP Web Service was started successfully.
+[2022-11-30 21:33:16 UTC] DNS Server (v10.0.0.0) was started successfully.
+[2022-11-30 21:33:26 UTC] DNS Server auth config file was saved: /etc/dns/config/auth.config
