@@ -56,6 +56,9 @@ RUN apt install -y php8.1-mysql iputils-ping
 # Clean up APT when done.
 # RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+# Add config files
+COPY ./config/sshd_config /etc/ssh/sshd_config
+
 # Add init scripts
 ADD ./init /etc/my_init.d
 

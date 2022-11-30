@@ -11,7 +11,8 @@ services:
     volumes:
       - ./volumes/vpn/external:/etc/openvpn
     networks:
-      - external-net
+      external-net:
+        ipv4_address: "10.44.44.3"
 
   internal-vpn:
     image: kylemanna/openvpn
@@ -24,7 +25,8 @@ services:
     volumes:
       - ./volumes/vpn/internal:/etc/openvpn
     networks:
-      - internal-net
+      internal-net:
+        ipv4_address: "10.10.10.3"
 
   kali:
     build: docker/kali
@@ -32,18 +34,22 @@ services:
     ports:
       - "22:22"
     networks:
-      - external-net
+      external-net:
+        ipv4_address: "10.44.44.4"
+    dns:
+      - "10.44.44.2"
 
   proda:
     build: docker/ubuntu-base
-    hostname: proda-10-10-10-6
+    hostname: web1-10-10-10-6
     environment:
       - USERS=webadmin:010101;user:888888;bob:a1b2c3;test:changeme;root:hattitude
     expose:
       - "0-65535"
     volumes:
       - ./volumes/production_website:/var/www/html/
-      - ./files/ssh/id_rsa.pub:/root/.ssh/authorized_keys
+      - ./files/ssh/root/id_rsa.pub:/root/.ssh/authorized_keys
+      - ./files/ssh/alice/id_rsa:/home/alice/.ssh/id_rsa
       - ./files/service/apache2/run:/etc/service/apache2/run
       - ./files/service/apache2/apache2.conf:/etc/apache2/apache2.conf
     networks:
@@ -54,14 +60,14 @@ services:
 
   prodb:
     build: docker/ubuntu-base
-    hostname: prodb-10-10-10-7
+    hostname: web2-10-10-10-7
     environment:
       - USERS=webadmin:010101;user:888888;alice:gizmo1;root:hattitude
     expose:
       - "0-65535"
     volumes:
       - ./volumes/reviews:/var/www/html/
-      - ./files/ssh/id_rsa.pub:/root/.ssh/authorized_keys
+      - ./files/ssh/root/id_rsa.pub:/root/.ssh/authorized_keys
       - ./files/service/apache2/run:/etc/service/apache2/run
       - ./files/service/apache2/apache2.conf:/etc/apache2/apache2.conf
     networks:
@@ -72,13 +78,13 @@ services:
 
   prodc:
     build: docker/ubuntu-base
-    hostname: prodc-10-10-10-8
+    hostname: db-10-10-10-8
     environment:
       - USERS=dbadmin:dbaccess;sysadmin:friend;alice:gizmo1;test:changeme;root:hattitude
     expose:
       - "0-65535"
     volumes:
-      - ./files/ssh/id_rsa.pub:/root/.ssh/authorized_keys
+      - ./files/ssh/root/id_rsa.pub:/root/.ssh/authorized_keys
       - ./files/service/mysql/run:/etc/service/mysql/run
       - ./files/service/mysql/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
       - ./files/service/mysql/init_db.sh:/etc/init_db.sh
@@ -89,33 +95,40 @@ services:
 
   inta:
     build: docker/ubuntu-base
-    hostname: inta-10-10-10-9
+    hostname: docs-10-10-10-9
     environment:
       - USERS=sysadmin:friend;bob:a1b2c3;user:letmein;root:hattitude
     expose:
       - "0-65535"
     volumes:
       - ./volumes/internal_wiki:/var/www/html/
-      - ./files/ssh/id_rsa.pub:/root/.ssh/authorized_keys
+      - ./files/ssh/root/id_rsa.pub:/root/.ssh/authorized_keys
       - ./files/service/apache2/run:/etc/service/apache2/run
     networks:
       internal-net:
         ipv4_address: "10.10.10.9"
 
-  # dns:
-  #   build: docker/ubuntu-base
-  #   hostname: proda-10-10-10-2
-  #   environment:
-  #     - USERS=admin:admin;devan:cheese
-  #   expose:
-  #     - "0-65535"
-  #   volumes:
-  #     - ./files/ssh/id_rsa.pub:/root/.ssh/authorized_keys
-  #   networks:
-  #     internal-net:
-  #       ipv4_address: "10.10.10.2"
-  #     external-net:
-  #       ipv4_address: "10.44.44.2"
+  dns:
+    hostname: dns
+    image: technitium/dns-server:latest
+    ports:
+      - "5380:5380/tcp" #DNS web console
+      - "53/tcp" #DNS service
+      - "53/udp" #DNS service
+
+    environment:
+      - DNS_SERVER_DOMAIN=dns-server #The primary domain name used by this DNS Server to identify itself.
+      - DNS_SERVER_ADMIN_PASSWORD=swordfish
+      - DNS_SERVER_FORWARDERS=1.1.1.1, 8.8.8.8 #Comma separated list of forwarder addresses.
+    volumes:
+      - ./volumes/config:/etc/dns/config
+    # sysctls:
+    #   - net.ipv4.ip_local_port_range=1024 65000
+    networks:
+      internal-net:
+        ipv4_address: "10.10.10.2"
+      external-net:
+        ipv4_address: "10.44.44.2"
   
 networks:
   internal-net:
