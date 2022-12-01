@@ -43,13 +43,12 @@ services:
     build: docker/ubuntu-base
     hostname: web1-10-10-10-6
     environment:
-      - USERS=webadmin:010101;user:888888;bob:a1b2c3;test:changeme;root:hattitude
+      - USERS=webadmin:010101:sudo;user:888888;bob:a1b2c3:sudo;test:changeme;admin:hattitude:sudo
     expose:
       - "0-65535"
     volumes:
       - ./volumes/production_website:/var/www/html/
       - ./files/ssh/root/id_rsa.pub:/root/.ssh/authorized_keys
-      - ./files/ssh/alice/id_rsa:/home/alice/.ssh/id_rsa
       - ./files/service/apache2/run:/etc/service/apache2/run
       - ./files/service/apache2/apache2.conf:/etc/apache2/apache2.conf
     networks:
@@ -64,7 +63,7 @@ services:
     build: docker/ubuntu-base
     hostname: web2-10-10-10-7
     environment:
-      - USERS=webadmin:010101;user:888888;alice:gizmo1;root:hattitude
+      - USERS=webadmin:010101:sudo;user:888888;alice:gizmo1:sudo;admin:hattitude:sudo
     expose:
       - "0-65535"
     volumes:
@@ -84,7 +83,7 @@ services:
     build: docker/ubuntu-base
     hostname: db-10-10-10-8
     environment:
-      - USERS=dbadmin:dbaccess;sysadmin:friend;alice:gizmo1;test:changeme;root:hattitude
+      - USERS=dbadmin:dbaccess:mysql:sudo;sysadmin:friend:sudo;alice:gizmo1:sudo;test:changeme;admin:hattitude:sudo
     expose:
       - "0-65535"
     volumes:
@@ -103,13 +102,14 @@ services:
     build: docker/ubuntu-base
     hostname: docs-10-10-10-9
     environment:
-      - USERS=sysadmin:friend;bob:a1b2c3;user:letmein;root:hattitude
+      - USERS=sysadmin:friend:sudo;bob:a1b2c3:sudo;user:letmein;admin:hattitude:sudo
     expose:
       - "0-65535"
     volumes:
       - ./volumes/internal_wiki/site:/var/www/html/
       - ./files/ssh/root/id_rsa.pub:/root/.ssh/authorized_keys
       - ./files/service/apache2/run:/etc/service/apache2/run
+      - ./test/:/etc/test/
     networks:
       internal-net:
         ipv4_address: "10.10.10.9"

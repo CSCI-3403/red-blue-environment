@@ -1,0 +1,1 @@
+sudo docker compose exec -w /etc/test inta ./test.sh

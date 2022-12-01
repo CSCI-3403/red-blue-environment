@@ -23,7 +23,7 @@ The one internal web server is hosting this documentation! It is configured the 
 
 Any of the servers can be accessed over SSH using these maintenance credentials:
 
-* Username: root  
+* Username: admin  
 * Password: hattitude  
 
 To access the mysql database, you can use the credentials:
